@@ -1,6 +1,11 @@
 package com.example.doctorsguide.controllers;
 
+import com.example.doctorsguide.data.ActiveIngredient;
+import com.example.doctorsguide.data.Form;
 import com.example.doctorsguide.data.Medicine;
+import com.example.doctorsguide.repositories.MedicineRepository;
+import com.example.doctorsguide.services.ActiveIngredientService;
+import com.example.doctorsguide.services.FormService;
 import com.example.doctorsguide.services.MedicineService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,6 +23,10 @@ import java.util.Optional;
 public class MedicineController {
 
     private final MedicineService medicineService;
+    private final ActiveIngredientService activeIngredientService;
+    private final FormService formService;
+
+    private final MedicineRepository medicineRepository;
 
     @GetMapping("/storage")
     public String showMedicines(Model model){
@@ -41,23 +52,37 @@ public class MedicineController {
         return "medicine_edit";
     }
 
-    @PostMapping("/add_medicine")
-    public String addMedicineToStorage(){
-        //make this function
+    @GetMapping("/add_medicine")
+    public String addMedicine(Model model){
+        model.addAttribute("forms", formService.getForms());
         return "add_medicine";
+    }
+
+    @PostMapping("/add_new_medicine")
+    public String addMedicine(@RequestParam String name, Form form, int quantity){
+        medicineService.addMedicineToStorage(name, form,quantity);
+        //make this function
+        return "redirect:/storage";
     }
 
     @GetMapping("/medicine_info/{id}")
     public String medicineById(@PathVariable int id, Model model){
         Optional<Medicine> medicine = medicineService.getMedicineById(id);
+        List<ActiveIngredient> activeIngredient = activeIngredientService.getIngredientsByMedicineId(id);
         if (medicine.isPresent()){
             model.addAttribute("med", medicine.get());
-
-            //make this function
+            model.addAttribute("active_ingredient", activeIngredient);
             return "medicine_info";
         } else {
             return "medicine_not_found";
         }
+    }
+
+    @PostMapping("/find_medicines_by_name")
+    public String findMedicine(@RequestParam String name, Model model){
+        List<Medicine> medicines = medicineRepository.findMedicinesByName(name);
+        model.addAttribute("medicines", medicines);
+        return "redirect:/storage";
     }
 
 }

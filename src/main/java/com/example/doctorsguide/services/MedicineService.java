@@ -1,5 +1,6 @@
 package com.example.doctorsguide.services;
 
+import com.example.doctorsguide.data.Form;
 import com.example.doctorsguide.data.Medicine;
 import com.example.doctorsguide.repositories.MedicineRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,14 @@ public class MedicineService {
 
     public Optional<Medicine> getMedicineById(Integer id){
         return medicineRepository.findById(id);
+    }
+
+    public void addMedicineToStorage(String name, Form form, Integer quantity){
+        Medicine medicine = new Medicine();
+        medicine.setName(name);
+        medicine.setForm(form);
+        medicine.setQuantity(quantity);
+        medicineRepository.save(medicine);
     }
 
 }

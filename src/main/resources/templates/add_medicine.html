@@ -13,9 +13,10 @@
         form {
             display: inline-block; /* Ensures the form only takes the width it needs */
         }
-        label, input {
-            display: block; /* Places label and input on separate lines */
+        label, input, select {
+            display: block; /* Places label, input, select on separate lines */
             margin-left: 100px;
+            width: 300px;
         }
         .main-page-button {
             text-align: center;
@@ -24,17 +25,21 @@
 </head>
 <body>
     <h1>Add new medicine to the storage</h1><br>
-    <form>
+    <form action="/add_new_medicine" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name"/><br>
         <label for="form">Form:</label>
-        <input type="text" id="form" name="form"/><br>
+        <select id="form" th:field="${forms}">
+                <option th:each="f : ${forms}"
+                th:value="${f}"
+                th:text="${f.name}">Form</option>
+        </select><br>
         <label for="quantity">Quantity:</label>
         <input type="text" id="quantity" name="quantity"/><br>
         <label for="active_ingredient">Active ingredient:</label>
         <input type="text" id="active_ingredient" name="active_ingredient"><br>
     </form><br>
-    <a class="btn btn-primary btn-sm" th:href="@{/storage}" style="margin-left: 100px">Save</a>
+    <a class="btn btn-primary btn-sm" th:href="@{/add_new_medicine}" style="margin-left: 100px">Save</a>
 
     <div class="main-page-button">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>

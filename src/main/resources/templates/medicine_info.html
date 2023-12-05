@@ -5,20 +5,30 @@
     <title>Information about medicine</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
     <style>
-        h1 {
+        .main-page-button {
+            text-align: center;
+        }
+        .info {
             margin-left: 200px;
             margin-top: 50px;
             color: #333;
             font-family: 'Arial', sans-serif;
         }
-        .main-page-button {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-    <h1 th:text="${med.name}"></h1>
-    //labels?
+    <div class="info" >
+    <h3 th:text=" 'ID: ' + ${med.id}"></h3>
+    <h3 th:text=" 'Name: ' + ${med.name}"></h3>
+    <h3 th:text=" 'Form: ' + ${med.form.name}"></h3>
+    <h3 th:text=" 'Quantity: ' + ${med.quantity}"></h3>
+        <h3>Active ingredients:
+            <span th:each="ai, iterStatus : ${active_ingredient}">
+        <span th:text="${ai.name}"></span>
+        <span th:if="${!iterStatus.last}"></span>
+            </span>
+        </h3>
+    </div>
     <div class="main-page-button">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
