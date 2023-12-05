@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Information about medicine</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            margin-left: 200px;
+            margin-top: 50px;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .main-page-button {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${med.name}"></h1>
+    //labels?
+    <div class="main-page-button">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+    </div>
+    <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Medicine storage</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .search-form-container {
+            display: flex;
+            align-items: center;
+            margin-left: 500px;
+        }
+        #searchForm {
+            margin-right: 150px;
+        }
+        .main-page-button {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medicine Storage</h1><br>
+    <div class="search-form-container">
+        <form id="searchForm" th:action="@{/storage}" method="post" th:object="${storage}">
+            <label for="searchTerm">Search medicine:</label>
+            <input type="text" id="searchTerm" name="searchTerm"/>
+            <a class="btn btn-primary btn-sm" onclick="performSearch()">Search</a>
+        </form>
+        <a class="btn btn-secondary btn-sm" th:href="@{/add_medicine}">Add new medicine</a>
+    </div><br>
+    <table class="table table-hover table-striped table-bordered table-sm">
+        <thead class="table-primary">
+        <tr>
+            <th>№</th>
+            <th>Name</th>
+            <th>Form</th>
+            <th>Quantity</th>
+            <th>Information</th>
+        </tr>
+        </thead>
+        <tbody id="medicineTableBody">
+            <tr th:each="m : ${storage}">
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.name}"></td>
+                <td th:text="${m.form.name}"></td>
+                <td>
+                    <a class="btn btn-primary btn-sm" th:href="@{/medicine_edit/{id}(id=${m.id})}">Edit</a>
+                    <span th:text="${m.quantity}"></span>
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm" th:href="@{/medicine_info/{id}(id=${m.id})}">Info</a>
+                </td>
+            </tr>
+        </tbody>
+    </table><br>
+    <div class="main-page-button">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+    </div>
+    <script th:inline="javascript">
+        function performSearch() {
+            var searchTerm = $('#searchTerm').val();
+            $.post('/storage', { searchTerm: searchTerm }, function(response) {
+                $('#medicineTableBody').html(response);
+            });
+        }
+    </script>
+    <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

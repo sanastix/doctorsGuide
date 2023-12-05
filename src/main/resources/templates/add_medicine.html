@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add medicine</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        form {
+            display: inline-block; /* Ensures the form only takes the width it needs */
+        }
+        label, input {
+            display: block; /* Places label and input on separate lines */
+            margin-left: 100px;
+        }
+        .main-page-button {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add new medicine to the storage</h1><br>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"/><br>
+        <label for="form">Form:</label>
+        <input type="text" id="form" name="form"/><br>
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" name="quantity"/><br>
+        <label for="active_ingredient">Active ingredient:</label>
+        <input type="text" id="active_ingredient" name="active_ingredient"><br>
+    </form><br>
+    <a class="btn btn-primary btn-sm" th:href="@{/storage}" style="margin-left: 100px">Save</a>
+
+    <div class="main-page-button">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+    </div>
+    <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
