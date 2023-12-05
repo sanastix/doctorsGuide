@@ -12,7 +12,6 @@
         }
         .search-form-container {
             display: flex;
-            align-items: center;
             margin-left: 500px;
         }
         #searchForm {
@@ -26,10 +25,10 @@
 <body>
     <h1>Medicine Storage</h1><br>
     <div class="search-form-container">
-        <form id="searchForm" action="/find_medicines_by_name" method="post" th:object="${storage}">
-            <label for="searchTerm">Search medicine:</label>
-            <input type="text" id="searchTerm" name="searchTerm"/>
-            <a class="btn btn-primary btn-sm">Search</a>
+        <form action="/find_medicines_by_name" method="get" id="searchForm">
+            <label for="name">Search medicine by name:</label>
+            <input type="text" id="name" name="name" required>
+            <button class="btn btn-primary btn-sm" type="submit">Search</button>
         </form>
         <a class="btn btn-secondary btn-sm" th:href="@{/add_medicine}">Add new medicine</a>
     </div><br>
@@ -61,7 +60,6 @@
     <div class="main-page-button">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
-
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

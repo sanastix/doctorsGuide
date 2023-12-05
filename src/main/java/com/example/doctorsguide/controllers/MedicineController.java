@@ -78,11 +78,11 @@ public class MedicineController {
         }
     }
 
-    @PostMapping("/find_medicines_by_name")
-    public String findMedicine(@RequestParam String name, Model model){
+    @GetMapping("/find_medicines_by_name")
+    public String findMedicine(@RequestParam("name") String name, Model model){
         List<Medicine> medicines = medicineRepository.findMedicinesByName(name);
-        model.addAttribute("medicines", medicines);
-        return "redirect:/storage";
+        model.addAttribute("storage", medicines);
+        return "storage";
     }
 
 }
