@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <title>Diseases guide</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .main-page-button {
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Disease guide</h1><br>
+    <div class="main-page-button">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+    </div>
     <a href="/doctorsGuide/templates/disease_info" class="btn btn-outline-info">Disease's info</a><br>
+
+
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

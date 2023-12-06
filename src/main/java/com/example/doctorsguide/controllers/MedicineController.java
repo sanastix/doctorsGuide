@@ -48,8 +48,18 @@ public class MedicineController {
     @GetMapping("/medicine_edit/{id}")
     public String editMedicine(@PathVariable int id, Model model){
         Optional<Medicine> medicine = medicineService.getMedicineById(id);
-        //make this function
-        return "medicine_edit";
+        if (medicine.isPresent()){
+            model.addAttribute("med", medicine.get());
+            return "medicine_edit";
+        } else {
+            return "medicine_not_found";
+        }
+    }
+
+    @PostMapping("/edit_medicine")
+    public String changeMedicine(@RequestParam("id") int id, @RequestParam int quantity){
+        medicineService.changeMedicineQuantity(quantity, id);
+        return "redirect:/storage";
     }
 
     @GetMapping("/add_medicine")

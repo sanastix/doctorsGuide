@@ -5,8 +5,13 @@
     <title>Information about medicine</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
     <style>
-        .main-page-button {
+        h1 {
             text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .main-page-button {
+            margin-left: 20px;
         }
         .info {
             margin-left: 200px;
@@ -17,6 +22,10 @@
     </style>
 </head>
 <body>
+    <h1>Information</h1>
+    <div class="main-page-button">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+    </div>
     <div class="info" >
     <h3 th:text=" 'ID: ' + ${med.id}"></h3>
     <h3 th:text=" 'Name: ' + ${med.name}"></h3>
@@ -28,9 +37,6 @@
         <span th:if="${!iterStatus.last}"></span>
             </span>
         </h3>
-    </div>
-    <div class="main-page-button">
-        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
