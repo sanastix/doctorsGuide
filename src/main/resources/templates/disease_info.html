@@ -42,11 +42,11 @@
             </span>
         </h3>
         <h3>Medicines:
-            <span th:each="m, iteeStatus : ${medicine}">
+            <span th:each="m, iterStatus : ${medicine}">
                 <a class="btn btn-info" th:href="@{/medicine_info/{id}(id=${m.id})}">
                     <span th:text="${m.name} + '(' + ${m.form.getName()} + ') '"></span>
                 </a>
-                <span th:if="${!iteeStatus.last}"></span>
+                <span th:if="${!iterStatus.last}"></span>
             </span>
         </h3>
     </div>

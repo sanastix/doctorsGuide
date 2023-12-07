@@ -78,10 +78,9 @@ public class MedicineController {
     @GetMapping("/medicine_info/{id}")
     public String medicineById(@PathVariable int id, Model model){
         Optional<Medicine> medicine = medicineService.getMedicineById(id);
-        List<ActiveIngredient> activeIngredient = activeIngredientService.getIngredientsByMedicineId(id);
         if (medicine.isPresent()){
             model.addAttribute("med", medicine.get());
-            model.addAttribute("active_ingredient", activeIngredient);
+            model.addAttribute("active_ingredient", activeIngredientService.getIngredientsByMedicineId(id));
             return "medicine_info";
         } else {
             return "medicine_not_found";
@@ -90,8 +89,7 @@ public class MedicineController {
 
     @GetMapping("/find_medicines_by_name")
     public String findMedicine(@RequestParam("name") String name, Model model){
-        List<Medicine> medicines = medicineRepository.findMedicinesByName(name);
-        model.addAttribute("storage", medicines);
+        model.addAttribute("storage", medicineRepository.findMedicinesByName(name));
         return "storage";
     }
 
