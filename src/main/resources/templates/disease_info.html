@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Information about disease</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .buttons {
+            margin-left: 20px;
+        }
+        .info {
+            margin-left: 200px;
+            margin-top: 50px;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Information</h1>
+    <div class="buttons">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+        <a class="btn btn-secondary" th:href="@{/diseases}">Back to diseases guide</a>
+    </div>
+    <div class="info">
+        <h3 th:text=" 'Name: ' + ${disease.name}"></h3>
+        <h3>Symptoms:
+            <span th:each="s, iterStatus : ${symptom}">
+                <span th:text="${s.name}"></span>
+                <span th:if="${!iterStatus.last}"></span>
+            </span>
+        </h3>
+        <h3>Diagnostics:
+            <span th:each="p, iterStatus : ${procedure}">
+                <span th:text="${p.name}"></span>
+                <span th:if="${!iterStatus.last}"></span>
+            </span>
+        </h3>
+        <h3>Medicines:
+            <span th:each="m, iteeStatus : ${medicine}">
+                <a class="btn btn-info" th:href="@{/medicine_info/{id}(id=${m.id})}">
+                    <span th:text="${m.name} + '(' + ${m.form.getName()} + ') '"></span>
+                </a>
+                <span th:if="${!iteeStatus.last}"></span>
+            </span>
+        </h3>
+    </div>
+</body>
+</html>

@@ -27,7 +27,13 @@ public class Medicine {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-/*    @OneToMany(mappedBy = "medicine")
-    private Set<ActiveIngredient> activeIngredientSet = new LinkedHashSet<>();*/
+    @ManyToMany(mappedBy = "medicines")
+    private Set<ActiveIngredient> activeIngredients = new LinkedHashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "medicine_disease",
+            joinColumns = @JoinColumn(name = "medicine_id"),
+            inverseJoinColumns = @JoinColumn(name = "disease_id"))
+    private Set<Disease> diseases = new LinkedHashSet<>();
 
 }

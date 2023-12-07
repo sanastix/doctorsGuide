@@ -10,19 +10,50 @@
             color: #333;
             font-family: 'Arial', sans-serif;
         }
-        .main-page-button {
+        .search-form-container {
+            display: flex;
             margin-left: 20px;
+        }
+        #searchForm {
+            margin-left: 400px;
+            margin-right: 20px;
+        }
+        #showAll {
+            margin-right: 100px;
         }
     </style>
 </head>
 <body>
     <h1>Disease guide</h1><br>
-    <div class="main-page-button">
+    <div class="search-form-container">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
-    </div>
-    <a href="/doctorsGuide/templates/disease_info" class="btn btn-outline-info">Disease's info</a><br>
-
-
+        <form action="/find_diseases_by_name" method="get" id="searchForm">
+            <label for="name">Search disease by name:</label>
+            <input type="text" id="name" name="name" required>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+        <form action="/diseases" method="get" id="showAll">
+            <button class="btn btn-primary" type="submit">Show all</button>
+        </form>
+    </div><br>
+    <table class="table table-hover table-striped table-bordered table-sm">
+        <thead class="table-primary">
+        <tr>
+            <th>№</th>
+            <th>Name</th>
+            <th>Information</th>
+        </tr>
+        </thead>
+        <tbody id="diseaseTableBody">
+            <tr th:each="d : ${diseases}">
+                <td th:text="${d.id}"></td>
+                <td th:text="${d.name}"></td>
+                <td>
+                    <a class="btn btn-primary btn-sm" th:href="@{/disease_info/{id}(id=${d.id})}">Info</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

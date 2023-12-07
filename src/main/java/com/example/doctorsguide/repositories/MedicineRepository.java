@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
 
-    @Query("select m from Medicine m where m.name = :name")
+    @Query("select m from Medicine m where m.name like %:name%")
     List<Medicine> findMedicinesByName(String name);
+
+    @Query("select m from Medicine m inner join m.diseases diseases where diseases.id in ?1")
+    List<Medicine> findMedicinesByDiseasesId(Integer id);
 
 }

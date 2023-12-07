@@ -17,14 +17,18 @@ public class MedicineService {
 
     private final MedicineRepository medicineRepository;
 
+    public Optional<Medicine> getMedicineById(Integer id){
+        return medicineRepository.findById(id);
+    }
+
     public List<Medicine> getMedicines(){
         return medicineRepository.findAll().stream()
                 .sorted(Comparator.comparingInt(Medicine::getId))
                 .collect(Collectors.toList());
     }
 
-    public Optional<Medicine> getMedicineById(Integer id){
-        return medicineRepository.findById(id);
+    public List<Medicine> getMedicinesByDiseaseId(Integer id){
+        return medicineRepository.findMedicinesByDiseasesId(id);
     }
 
     public void changeMedicineQuantity(int quantity, int medicineId){
