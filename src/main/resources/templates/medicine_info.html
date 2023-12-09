@@ -10,7 +10,7 @@
             color: #333;
             font-family: 'Arial', sans-serif;
         }
-        .main-page-button {
+        .buttons {
             margin-left: 20px;
         }
         .info {
@@ -23,8 +23,9 @@
 </head>
 <body>
     <h1>Information</h1>
-    <div class="main-page-button">
+    <div class="buttons">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+        <a class="btn btn-secondary" th:href="@{/storage}">Back to storage</a>
     </div>
     <div class="info" >
         <h3 th:text=" 'ID: ' + ${med.id}"></h3>
@@ -38,7 +39,19 @@
             </span>
         </h3>
         <h3 th:text=" 'Dosage: ' + ${med.dosage}"></h3>
+        <h3>Analogues:</h3>
+        <div th:each="an : ${analogues}" th:unless="${an.id == med.id}">
+            <a class="btn btn-info" th:href="@{/medicine_info/{id}(id=${an.id})}">
+                <span th:text="${an.name} + '(' + ${an.form.getName()} + ')'"></span><br>
+            </a>
+        </div>
+
+
+
+
     </div>
+
+
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

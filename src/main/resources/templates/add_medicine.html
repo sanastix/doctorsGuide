@@ -29,7 +29,7 @@
     <h1>Add new medicine to the storage</h1><br>
     <div class="buttons">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
-        <a class="btn btn-secondary" th:href="@{/storage}">Back to storage</a>
+        <a class="btn btn-secondary" onclick="goBack()">Back to storage</a>
     </div>
     <form action="/add_new_medicine" method="post">
         <label for="name">Name:</label>
@@ -48,6 +48,12 @@
         <input type="text" id="dosage" name="dosage"><br>
         <a class="btn btn-primary btn-sm" th:href="@{/add_new_medicine}">Save</a>
     </form><br>
+
+    <script type="text/javascript">
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
