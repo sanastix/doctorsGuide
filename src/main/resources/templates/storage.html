@@ -54,7 +54,7 @@
                 <td th:text="${m.form.name}"></td>
                 <td>
                     <a class="btn btn-primary btn-sm" th:href="@{/medicine_edit/{id}(id=${m.id})}">Edit</a>
-                    <span th:text="${m.quantity}"></span>
+                    <span th:text="${m.quantity} + ' units'"></span>
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" th:href="@{/medicine_info/{id}(id=${m.id})}">Info</a>

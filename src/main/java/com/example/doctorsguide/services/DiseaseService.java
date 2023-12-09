@@ -14,12 +14,12 @@ public class DiseaseService {
 
     private final DiseaseRepository diseaseRepository;
 
-    public List<Disease> getDiseases(){
-        return diseaseRepository.findAll();
-    }
-
     public Optional<Disease> getDiseaseById(Integer id){
         return diseaseRepository.findById(id);
+    }
+
+    public List<Disease> getDiseases(){
+        return diseaseRepository.findAll();
     }
 
 }

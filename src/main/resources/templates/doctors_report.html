@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .buttons {
+            margin-left: 20px;
+        }
+        .report {
+            margin-top: 50px;
+            display: block;
+            margin-left: 250px;
+            width: 1000px;
+        }
+        .pdf {
+            margin-left: 250px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor's report</h1>
+    <div class="buttons">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+        <a class="btn btn-secondary" onclick="goBack()">Back to form</a>
+    </div>
+
+    <div class="report">
+        <h3>
+            <span th:each="r, iterStatus : ${report}">
+                <span th:text="${r.toString()}"></span><br>
+                <span th:if="${!iterStatus.last}"></span><br>
+            </span>
+        </h3>
+    </div>
+<!--
+    <div class="pdf">
+        <a class="btn btn-primary" onclick="openPdfInNewTab()">Open PDF</a>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var report = /*[[${report}]]*/ null;  // Replace 'null' with the default value
+
+        function openPdfInNewTab() {
+            if (report) {
+                // Convert the 'report' object to a JSON string
+                var pdfContent = JSON.stringify(report);
+
+                // Thymeleaf expression to get the dynamic PDF content URL
+                var pdfUrl = /*[[@{/download-pdf(report=${pdfContent})}]]*/ '';
+
+                // Open the PDF in a new tab
+                window.open(pdfUrl, '_blank');
+            } else {
+                alert('Report is empty. Cannot generate PDF.');
+            }
+        }
+
+        /*]]>*/
+    </script>-->
+
+
+
+    <script type="text/javascript">
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

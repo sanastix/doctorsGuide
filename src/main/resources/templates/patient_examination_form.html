@@ -12,12 +12,9 @@
         }
         form {
             margin-top: 50px;
-            display: inline-block;
-        }
-        label, input, select {
             display: block;
             margin-left: 250px;
-            width: 500px;
+            width: 1000px;
         }
         .main-page-button {
             margin-left: 20px;
@@ -29,52 +26,85 @@
     <div class="main-page-button">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
-    <form action="/fill_patient_exam_form" method="post">
+    <form th:action="@{/fill_patient_exam_form}" th:object="${patientForm}"
+          method="post" onsubmit="return validateForm()">
         <label for="name">1.Name:</label>
-        <input type="text" id="name" name="name" pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/\d+/g, '')"><br>
+        <div>
+            <input type="text" id="name" name="name" pattern="[A-Za-z\s]+"
+                   oninput="removeDigitsAndSpecialChars(this)" style="width: 500px;" required>
+        </div><br>
+
         <label for="age">2.Age:</label>
-        <input type="number" id="age" name="age"><br>
-
-        <label for="symptom">3.Symptoms:</label>
         <div>
-            <select id="symptom" th:field="${symptoms}" multiple>
-                <option th:each="s : ${symptoms}" th:value="${s.id}" th:text="${s.name}">Symptom</option>
-            </select>
+            <input type="number" id="age" name="age" style="width: 500px;" required>
         </div><br>
 
-        <label for="diagnosis">4.Diagnosis:</label>
-        <div>
-            <select id="diagnosis" th:field="${diseases}">
-                <option th:each="d : ${diseases}" th:value="${d.id}" th:text="${d.name}">Disease</option>
-            </select>
+        <label for="symptoms">3. Symptoms:</label>
+        <div th:each="s : ${symptoms}">
+            <div>
+                <input id="symptoms" type="checkbox" th:id="${'symptom-' + s.id}"
+                       th:name="symptoms" th:value="${s.id}">
+                <label th:for="${'symptom-' + s.id}" th:text="${s.name}"></label>
+            </div>
         </div><br>
 
-        <label for="procedures">5.Diagnostic procedures:</label>
-        <div>
-            <select id="procedures" th:field="${procedures}" multiple>
-                <option th:each="p : ${procedures}" th:value="${p.id}" th:text="${p.name}">Procedures</option>
-            </select>
+        <label for="diseases">4. Diagnosis:</label>
+        <div th:each="d : ${diseases}">
+            <div>
+                <input id="diseases" type="checkbox" th:id="${'disease-' + d.id}"
+                       th:name="diseases" th:value="${d.id}">
+                <label th:for="${'disease-' + d.id}" th:text="${d.name}"></label>
+            </div>
         </div><br>
 
-        <label for="medicines">6.Treatment:</label>
-        <div>
-            <select id="medicines" th:field="${medicines}" multiple>
-                <option th:each="m : ${medicines}" th:value="${m.id}" th:text="${m.name} + ' (' + ${m.form.name} + ')'">Medicines</option>
-            </select>
+        <label for="procedures">5. Diagnostic Procedures:</label>
+        <div th:each="p : ${procedures}">
+            <div>
+                <input id="procedures" type="checkbox" th:id="${'procedure-' + p.id}"
+                       th:name="procedures" th:value="${p.id}">
+                <label th:for="${'procedure-' + p.id}" th:text="${p.name}"></label>
+            </div>
         </div><br>
 
-        <!--<select id="symptom" th:field="${symptoms}">
-            <option th:each="s : ${symptoms}"
-            th:value="${s}"
-            th:text="${s.name}">Symptom</option>
-        </select><br>-->
-    </form><br>
+        <label for="medicines">6. Treatment:</label>
+        <div th:each="m : ${medicines}">
+            <div>
+                <input id="medicines" type="checkbox" th:id="${'medicine-' + m.id}"
+                       th:name="medicines" th:value="${m.id}">
+                <label th:for="${'medicine-' + m.id}"
+                       th:text="${m.name} + ' (' + ${m.form.name} + ', ' + ${m.dosage} + ')'"></label>
+            </div>
+        </div><br>
+        <button class="btn btn-primary btn-sm" type="submit">Confirm</button>
+    </form>
 
-    <!--<a class="btn btn-primary btn-sm">Save (to DB?)</a>-->
+    <script type="text/javascript">
+        function removeDigitsAndSpecialChars(input) {
+            input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+        }
 
-    <!-- not sure
-    <a href="/doctors_report" class="btn btn-outline-info">Doctor's report</a><br>
-    -->
+        function validateForm() {
+            var symptomsCheckboxes = document.getElementsByName('symptoms');
+            var diseasesCheckboxes = document.getElementsByName('diseases');
+            var proceduresCheckboxes = document.getElementsByName('procedures');
+            var medicinesCheckboxes = document.getElementsByName('medicines');
+
+            if (!hasCheckedCheckbox(symptomsCheckboxes) ||
+                !hasCheckedCheckbox(diseasesCheckboxes) ||
+                !hasCheckedCheckbox(proceduresCheckboxes) ||
+                !hasCheckedCheckbox(medicinesCheckboxes)) {
+                alert('Please select at least one option in each checkbox group.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function hasCheckedCheckbox(checkboxes) {
+            return Array.from(checkboxes).some(checkbox => checkbox.checked);
+        }
+    </script>
+
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

@@ -37,6 +37,7 @@
                 <span th:if="${!iterStatus.last}"></span>
             </span>
         </h3>
+        <h3 th:text=" 'Dosage: ' + ${med.dosage}"></h3>
     </div>
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>

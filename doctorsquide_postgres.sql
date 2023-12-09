@@ -301,3 +301,38 @@ SET quantity = CASE
                    WHEN name = 'Triagesic' AND form_id = 2 THEN 65
                    ELSE NULL
     END;
+
+-- Add the 'dosage' column to the 'medicine' table
+ALTER TABLE medicine
+    ADD COLUMN dosage VARCHAR(255);
+
+-- Update the 'dosage' values for existing medicines based on names and form_ids
+UPDATE medicine
+SET dosage =
+        CASE
+            WHEN name = 'Advil' AND form_id = 1 THEN '1000-3500 mg orally per day in divided doses 3 or 4 times a day'
+            WHEN name = 'Advil' AND form_id = 2 THEN '1200-3200 mg orally per day in divided doses 3 or 4 times a day'
+            WHEN name = 'Zyrtec' AND form_id = 1 THEN '300-900 mg orally per day in divided doses 1 or 2 times a day'
+            WHEN name = 'Zyrtec' AND form_id = 3 THEN '400-1200 mg orally per day 1 or 2 times a day'
+            WHEN name = 'Prilosec' AND form_id = 1 THEN '40 mg once daily'
+            WHEN name = 'Prilosec' AND form_id = 2 THEN '60 mg once daily'
+            WHEN name = 'Amoxil' AND form_id = 3 THEN '12.5 mL of oral suspension twice daily'
+            WHEN name = 'Glucophage' AND form_id = 1 THEN '500 mg orally twice a day'
+            WHEN name = 'Glucophage' AND form_id = 2 THEN '850 mg once a day'
+            WHEN name = 'Synthroid' AND form_id = 1 THEN '1.6 mcg/kg/day'
+            WHEN name = 'Synthroid' AND form_id = 2 THEN '1.8 mcg/kg/day'
+            WHEN name = 'Zoloft' AND form_id = 1 THEN '25 to 50 mg per day'
+            WHEN name = 'Zoloft' AND form_id = 2 THEN '30 to 60 mg per day'
+            WHEN name = 'Duragesic' AND form_id = 4 THEN '2 to 20 mcg/kg'
+            WHEN name = 'Duragesic' AND form_id = 5 THEN '25 to 100 mcg once'
+            WHEN name = 'Augmentin' AND form_id = 4 THEN '400 mg every 8 hours'
+            WHEN name = 'Augmentin' AND form_id = 5 THEN '500 mg every 8 hours'
+            WHEN name = 'Lantus' AND form_id = 4 THEN '0.2 units/kg daily'
+            WHEN name = 'Lantus' AND form_id = 5 THEN '10 units twice a day'
+            WHEN name = 'Triagesic' AND form_id = 1 THEN '1000-3000 mg in divided doses 3 or 4 times a day'
+            WHEN name = 'Triagesic' AND form_id = 2 THEN '1200-3200 mg in divided doses 3 or 4 times a day'
+            WHEN name = 'Lantus' AND form_id = 6 THEN '10 units daily'
+            WHEN name = 'Amoxil' AND form_id = 1 THEN '150-300 mg twice daily'
+            ELSE NULL
+            END;
+

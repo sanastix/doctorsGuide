@@ -27,6 +27,9 @@ public class Medicine {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    @Column(name = "dosage", nullable = false)
+    private String dosage;
+    
     @ManyToMany(mappedBy = "medicines")
     private Set<ActiveIngredient> activeIngredients = new LinkedHashSet<>();
 
@@ -35,5 +38,6 @@ public class Medicine {
             joinColumns = @JoinColumn(name = "medicine_id"),
             inverseJoinColumns = @JoinColumn(name = "disease_id"))
     private Set<Disease> diseases = new LinkedHashSet<>();
+
 
 }
