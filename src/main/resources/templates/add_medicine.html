@@ -16,7 +16,7 @@
             margin-left: 300px;
             width: 1000px;
         }
-        #name, #form, #quantity, #dosage, #diseases {
+        #name, #forms, #quantity, #dosage, #diseases {
             width: 500px;
         }
         .buttons {
@@ -30,47 +30,47 @@
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
         <a class="btn btn-secondary" th:href="@{/storage}">Back to storage</a>
     </div>
-    <form action="/add_new_medicine" method="post">
+    <form th:action="@{/add_new_medicine}" method="post" >
         <label for="name">Name:</label>
         <div>
-            <input type="text" id="name" name="name" oninput="removeDigitsAndSpecialChars(this)" required>
+            <input type="text" id="name" name="name" oninput="removeDigitsAndSpecialChars(this)" required/>
         </div><br>
 
-        <label for="form">Form:</label>
+        <label for="forms">Form:</label>
         <div>
-            <select id="form" name="form" th:field="${forms}">
+            <select type="number" id="forms" name="forms">
                 <option th:each="f : ${forms}"
-                        th:value="${f}"
+                        th:value="${f.id}"
                         th:text="${f.name}">Form</option>
             </select>
         </div><br>
 
         <label for="quantity">Quantity:</label>
         <div>
-            <input type="number" id="quantity" name="quantity" required min="0" value="0">
+            <input type="number" id="quantity" name="quantity" required min="0" value="0"/>
         </div><br>
 
-        <label for="active_ingredients">Active ingredient:</label>
+        <label for="active_ingredients">Active ingredients:</label>
         <div th:each="ai : ${active_ingredients}">
             <div>
-                <input id="active_ingredients" type="checkbox" th:id="${'active_ingredient-' + ai.id}"
-                    th:name="active_ingredients" th:value="${ai.id}">
-                <label th:for="${'active_ingredient-' + ai.id}" th:text="${ai.name}"></label>
+                <input type="checkbox" id="active_ingredients" name="active_ingredients"
+                       th:id="${ai.id}" th:name="active_ingredients" th:value="${ai.id}"/>
+                <label th:for="${ai.id}" th:text="${ai.name}"></label>
             </div>
         </div><br>
 
         <label for="dosage">Dosage:</label>
         <div>
-            <input type="text" id="dosage" name="dosage" required>
+            <input type="text" id="dosage" name="dosage" required/>
         </div><br>
 
         <label for="diseases">Indication:</label>
-        <div>
-            <select id="diseases" th:field="${diseases}" multiple="multiple" required>
-                <option th:each="d : ${diseases}"
-                        th:value="${d}"
-                        th:text="${d.name}">Disease</option>
-            </select>
+        <div th:each="d : ${diseases}">
+            <div>
+                <input type="checkbox" id="diseases" name="diseases" th:id="${'disease-' + d.id}"
+                    th:name="diseases" th:value="${d.id}"/>
+                <label th:for="${'disease-' + d.id}" th:text="${d.name}"></label>
+            </div>
         </div><br>
 
         <div class="submit-btn">
@@ -81,6 +81,21 @@
     <script type="text/javascript">
         function removeDigitsAndSpecialChars(input) {
             input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+        }
+
+        function validateForm() {
+            var activeIngredientsCheckboxes = document.getElementsByName('active_ingredients');
+            var diseasesCheckboxes = document.getElementsByName('diseases');
+            if (!hasCheckedCheckbox(activeIngredientsCheckboxes) ||
+                !hasCheckedCheckbox(diseasesCheckboxes)) {
+                alert('Please select at least one option in each checkbox group.');
+                return false;
+            }
+            return true;
+        }
+
+        function hasCheckedCheckbox(checkboxes) {
+            return Array.from(checkboxes).some(checkbox => checkbox.checked);
         }
     </script>
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>

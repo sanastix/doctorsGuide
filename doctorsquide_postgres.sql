@@ -395,3 +395,35 @@ alter table disease_diagnostic_procedure
     add foreign key (diagnostic_procedure_id) references diagnostic_procedure
         on delete cascade;
 
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_medicine_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (medicine_id) references medicine
+        on update cascade on delete cascade;
+
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (active_ingredient_id) references active_ingredient
+        on update cascade on delete cascade;
+
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_medicine_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (medicine_id) references medicine
+        on delete cascade;
+
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (active_ingredient_id) references active_ingredient
+        on delete cascade;
+
+alter table active_ingredient
+    add constraint active_ingredient_name_key
+        unique (name);
+

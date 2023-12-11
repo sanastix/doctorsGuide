@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -75,12 +76,12 @@ public class MedicineController {
 
     @PostMapping("/add_new_medicine")
     public String addMedicine(@RequestParam("name") String name,
-                              @RequestParam("form") int form,
+                              @RequestParam("forms") Form form,
                               @RequestParam("quantity") int quantity,
-                              @RequestParam("active_ingredient") String active_ingredient,
+                              @RequestParam("active_ingredients") Set<ActiveIngredient> active_ingredients,
                               @RequestParam("dosage") String dosage,
-                              @RequestParam("diseases") String disease){
-        medicineService.addMedicineToStorage(name, form, quantity, active_ingredient, dosage, disease);
+                              @RequestParam("diseases") Set<Disease> disease){
+        medicineService.addMedicineToStorage(name, form, quantity, active_ingredients, dosage, disease);
         return "redirect:/storage";
     }
 

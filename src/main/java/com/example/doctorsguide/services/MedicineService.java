@@ -1,6 +1,7 @@
 package com.example.doctorsguide.services;
 
 import com.example.doctorsguide.data.ActiveIngredient;
+import com.example.doctorsguide.data.Disease;
 import com.example.doctorsguide.data.Form;
 import com.example.doctorsguide.data.Medicine;
 import com.example.doctorsguide.repositories.ActiveIngredientRepository;
@@ -40,27 +41,25 @@ public class MedicineService {
         medicineRepository.saveAndFlush(medicine);
     }
 
-    public void addMedicineToStorage(String name, int form, Integer quantity,
-                                     String active_ingredient, String dosage,
-                                     String disease){
+    public void addMedicineToStorage(String name, Form form, Integer quantity,
+                                     Set<ActiveIngredient> active_ingredients, String dosage,
+                                     Set<Disease> disease){
         Medicine medicine = new Medicine();
         medicine.setName(name);
-        medicine.setForm(formService.getForms().get(form));
+        medicine.setForm(form);
         medicine.setQuantity(quantity);
 
-        //choose ai from list OR add new ai to table ???
-        //merge two sets: initial and new, ignoring case
-        Set<ActiveIngredient> newSet = convertStringToActiveIngredientSet(active_ingredient);
-        List<ActiveIngredient> existingList = activeIngredientRepository.findAll();
-        Set<ActiveIngredient> activeIngredients = mergeLists(existingList, newSet);
-
-        medicine.setActiveIngredients(activeIngredients);
+/*        Set<ActiveIngredient> newAISet = convertStringToActiveIngredientSet(active_ingredient);
+        List<ActiveIngredient> existingAIList = activeIngredientRepository.findAll();
+        Set<ActiveIngredient> activeIngredients = mergeLists(existingAIList, newAISet);
+        medicine.setActiveIngredients(activeIngredients);*/
+        medicine.setActiveIngredients(active_ingredients);
+/*        Set<ActiveIngredient> activeIngredients = new LinkedHashSet<>(active_ingredients);
+        medicine.setActiveIngredients(activeIngredients);*/
 
         medicine.setDosage(dosage);
 
-        //same thing as ai set ???
-        //medicine.setDiseases(disease);
-
+        medicine.setDiseases(disease);
         medicineRepository.save(medicine);
     }
 

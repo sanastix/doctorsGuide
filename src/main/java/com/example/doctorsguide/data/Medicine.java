@@ -30,7 +30,10 @@ public class Medicine {
     @Column(name = "dosage", nullable = false)
     private String dosage;
     
-    @ManyToMany(mappedBy = "medicines")
+    @ManyToMany
+    @JoinTable(name = "medicine_active_ingredient",
+            joinColumns = @JoinColumn(name = "medicine_id"),
+            inverseJoinColumns = @JoinColumn(name = "active_ingredient_id"))
     private Set<ActiveIngredient> activeIngredients = new LinkedHashSet<>();
 
     @ManyToMany
