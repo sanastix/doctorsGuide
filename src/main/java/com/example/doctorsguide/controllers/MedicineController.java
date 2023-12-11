@@ -1,10 +1,12 @@
 package com.example.doctorsguide.controllers;
 
 import com.example.doctorsguide.data.ActiveIngredient;
+import com.example.doctorsguide.data.Disease;
 import com.example.doctorsguide.data.Form;
 import com.example.doctorsguide.data.Medicine;
 import com.example.doctorsguide.repositories.MedicineRepository;
 import com.example.doctorsguide.services.ActiveIngredientService;
+import com.example.doctorsguide.services.DiseaseService;
 import com.example.doctorsguide.services.FormService;
 import com.example.doctorsguide.services.MedicineService;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class MedicineController {
     private final MedicineService medicineService;
     private final ActiveIngredientService activeIngredientService;
     private final FormService formService;
+    private final DiseaseService diseaseService;
 
     private final MedicineRepository medicineRepository;
 
@@ -65,13 +68,19 @@ public class MedicineController {
     @GetMapping("/add_medicine")
     public String addMedicine(Model model){
         model.addAttribute("forms", formService.getForms());
+        model.addAttribute("active_ingredients", activeIngredientService.getIngredients());
+        model.addAttribute("diseases", diseaseService.getDiseases());
         return "add_medicine";
     }
 
     @PostMapping("/add_new_medicine")
-    public String addMedicine(@RequestParam String name, Form form, int quantity){
-        medicineService.addMedicineToStorage(name, form,quantity);
-        //make this function
+    public String addMedicine(@RequestParam("name") String name,
+                              @RequestParam("form") int form,
+                              @RequestParam("quantity") int quantity,
+                              @RequestParam("active_ingredient") String active_ingredient,
+                              @RequestParam("dosage") String dosage,
+                              @RequestParam("diseases") String disease){
+        medicineService.addMedicineToStorage(name, form, quantity, active_ingredient, dosage, disease);
         return "redirect:/storage";
     }
 
@@ -93,6 +102,12 @@ public class MedicineController {
     public String findMedicine(@RequestParam("name") String name, Model model){
         model.addAttribute("storage", medicineRepository.findMedicinesByName(name));
         return "storage";
+    }
+
+    @GetMapping("/delete_medicine/{id}")
+    public String deleteMedicine(@PathVariable int id){
+        medicineService.deleteMedicineById(id);
+        return "redirect:/storage";
     }
 
 }

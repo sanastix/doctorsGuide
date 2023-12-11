@@ -45,6 +45,7 @@
             <th>Form</th>
             <th>Quantity</th>
             <th>Information</th>
+            <th>Delete medicine</th>
         </tr>
         </thead>
         <tbody id="medicineTableBody">
@@ -58,6 +59,9 @@
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" th:href="@{/medicine_info/{id}(id=${m.id})}">Info</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger btn-sm" th:href="@{/delete_medicine/{id}(id=${m.id})}">Delete</a>
                 </td>
             </tr>
         </tbody>

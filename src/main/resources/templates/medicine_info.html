@@ -38,7 +38,17 @@
                 <span th:if="${!iterStatus.last}"></span>
             </span>
         </h3>
-        <h3 th:text=" 'Dosage: ' + ${med.dosage}"></h3>
+        <h3>Indication:
+            <span th:if="${med.diseases}">
+                <span th:each="disease, iterStatus : ${med.diseases}">
+                    <a th:href="@{/disease_info/{id}(id=${disease.id})}" th:text="${disease.name}"></a>
+                    <span th:if="${!iterStatus.last}">, </span>
+                </span>
+            </span>
+            <span th:unless="${med.diseases}">No indication available</span>
+        </h3>
+
+        <h3 th:text=" 'Dosage: ' + ${med.dosage}"></h3><br><br>
         <h3>Analogues:</h3>
         <div th:each="an : ${analogues}" th:unless="${an.id == med.id}">
             <a class="btn btn-info" th:href="@{/medicine_info/{id}(id=${an.id})}">

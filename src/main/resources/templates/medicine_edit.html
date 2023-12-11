@@ -41,7 +41,7 @@
     <h3 th:text=" 'Quantity: ' + ${med.quantity}"></h3>
         <form action="/edit_medicine" method="post" id="edit_quantity">
         <label for="quantity"></label>
-        <input type="text" id="quantity" name="quantity" required>
+        <input type="number" id="quantity" name="quantity" required min="0">
         <button class="btn btn-primary btn-sm" type="submit" id="id" name="id" th:value="${med.id}">Submit</button>
         </form>
     </div>

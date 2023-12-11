@@ -336,3 +336,62 @@ SET dosage =
             ELSE NULL
             END;
 
+alter table medicine
+    alter column quantity set default 0;
+
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_medicine_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (medicine_id) references medicine
+        on delete cascade;
+
+alter table medicine_active_ingredient
+    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
+
+alter table medicine_active_ingredient
+    add foreign key (active_ingredient_id) references active_ingredient
+        on delete cascade;
+
+alter table medicine_disease
+    drop constraint medicine_disease_medicine_id_fkey;
+
+alter table medicine_disease
+    add foreign key (medicine_id) references medicine
+        on delete cascade;
+
+alter table medicine_disease
+    drop constraint medicine_disease_disease_id_fkey;
+
+alter table medicine_disease
+    add foreign key (disease_id) references disease
+        on delete cascade;
+
+alter table disease_symptom
+    drop constraint disease_symptom_disease_id_fkey;
+
+alter table disease_symptom
+    add foreign key (disease_id) references disease
+        on delete cascade;
+
+alter table disease_symptom
+    drop constraint disease_symptom_symptom_id_fkey;
+
+alter table disease_symptom
+    add foreign key (symptom_id) references symptom
+        on delete cascade;
+
+alter table disease_diagnostic_procedure
+    drop constraint disease_diagnostic_procedure_disease_id_fkey;
+
+alter table disease_diagnostic_procedure
+    add foreign key (disease_id) references disease
+        on delete cascade;
+
+alter table disease_diagnostic_procedure
+    drop constraint disease_diagnostic_procedure_diagnostic_procedure_id_fkey;
+
+alter table disease_diagnostic_procedure
+    add foreign key (diagnostic_procedure_id) references diagnostic_procedure
+        on delete cascade;
+

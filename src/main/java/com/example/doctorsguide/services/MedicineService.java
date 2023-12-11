@@ -1,14 +1,14 @@
 package com.example.doctorsguide.services;
 
+import com.example.doctorsguide.data.ActiveIngredient;
 import com.example.doctorsguide.data.Form;
 import com.example.doctorsguide.data.Medicine;
+import com.example.doctorsguide.repositories.ActiveIngredientRepository;
 import com.example.doctorsguide.repositories.MedicineRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 public class MedicineService {
 
     private final MedicineRepository medicineRepository;
+    private final ActiveIngredientRepository activeIngredientRepository;
+
+    private final FormService formService;
 
     public Optional<Medicine> getMedicineById(Integer id){
         return medicineRepository.findById(id);
@@ -37,12 +40,56 @@ public class MedicineService {
         medicineRepository.saveAndFlush(medicine);
     }
 
-    public void addMedicineToStorage(String name, Form form, Integer quantity){
+    public void addMedicineToStorage(String name, int form, Integer quantity,
+                                     String active_ingredient, String dosage,
+                                     String disease){
         Medicine medicine = new Medicine();
         medicine.setName(name);
-        medicine.setForm(form);
+        medicine.setForm(formService.getForms().get(form));
         medicine.setQuantity(quantity);
+
+        //choose ai from list OR add new ai to table ???
+        //merge two sets: initial and new, ignoring case
+        Set<ActiveIngredient> newSet = convertStringToActiveIngredientSet(active_ingredient);
+        List<ActiveIngredient> existingList = activeIngredientRepository.findAll();
+        Set<ActiveIngredient> activeIngredients = mergeLists(existingList, newSet);
+
+        medicine.setActiveIngredients(activeIngredients);
+
+        medicine.setDosage(dosage);
+
+        //same thing as ai set ???
+        //medicine.setDiseases(disease);
+
         medicineRepository.save(medicine);
     }
 
+    private static Set<ActiveIngredient> mergeLists(List<ActiveIngredient> existingList, Set<ActiveIngredient> newSet) {
+        Set<ActiveIngredient> existingSet = new HashSet<>(existingList);
+        Set<ActiveIngredient> mergedSet = new HashSet<>(existingSet);
+        newSet.forEach(newIngredient -> {
+            boolean containsIgnoreCase = existingSet.stream()
+                    .anyMatch(existingIngredient -> existingIngredient.getName().equalsIgnoreCase(newIngredient.getName()));
+
+            if (!containsIgnoreCase) {
+                mergedSet.add(newIngredient);
+            }
+        });
+        return mergedSet;
+    }
+
+    private static Set<ActiveIngredient> convertStringToActiveIngredientSet(String inputString) {
+        String[] ingredientNames = inputString.split(", ");
+        Set<ActiveIngredient> activeIngredientSet = new HashSet<>();
+        for (String ingredientName : ingredientNames) {
+            ActiveIngredient activeIngredient = new ActiveIngredient();
+            activeIngredient.setName(ingredientName);
+            activeIngredientSet.add(activeIngredient);
+        }
+        return activeIngredientSet;
+    }
+
+    public void deleteMedicineById(int id) {
+        medicineRepository.delete(getMedicineById(id).get());
+    }
 }

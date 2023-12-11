@@ -16,6 +16,10 @@ public class ActiveIngredientService {
     private final ActiveIngredientRepository activeIngredientRepository;
     private final MedicineRepository medicineRepository;
 
+    public List<ActiveIngredient> getIngredients(){
+        return activeIngredientRepository.findAll();
+    }
+
     public Optional<ActiveIngredient> getIngredientById(Integer id){
         return activeIngredientRepository.findById(id);
     }
