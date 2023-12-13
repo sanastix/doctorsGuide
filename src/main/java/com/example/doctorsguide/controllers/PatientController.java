@@ -2,24 +2,12 @@ package com.example.doctorsguide.controllers;
 
 import com.example.doctorsguide.data.*;
 import com.example.doctorsguide.services.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -45,10 +33,15 @@ public class PatientController {
                              @RequestParam("age") int age,
                              @RequestParam("symptoms") Set<Symptom> symptoms,
                              @RequestParam("diseases") Set<Disease> diseases,
+                             @RequestParam("procedures") Set<DiagnosticProcedure> procedures,
                              @RequestParam("medicines") Set<Medicine> medicines,
                              @RequestParam(name = "notes", required = false) String notes,
                              Model model) {
-        model.addAttribute("exam_form", patientService.composeExaminationForm(name, age, symptoms, diseases, medicines, notes));
+        Patient patient = patientService.composePatient(name, age);
+        ExaminationForm examinationForm = patientService.composeExaminationForm(symptoms, diseases, procedures, medicines, notes);
+        patientService.savePatientAndExaminationForm(patient, examinationForm);
+        model.addAttribute("patient", patient);
+        model.addAttribute("exam_form", examinationForm);
         return "doctors_report";
     }
 

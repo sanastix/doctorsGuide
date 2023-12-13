@@ -421,3 +421,13 @@ CREATE TABLE IF NOT EXISTS examination_form_medicines (
 -- Add the 'notes' column to the 'examination_form' table
 ALTER TABLE examination_form
     ADD COLUMN notes TEXT;
+
+alter table examination_form
+    rename column patient_id to patients_id;
+
+alter table patient
+    rename column id to patient_id;
+
+alter table examination_form
+    rename column id to exam_form_id;
+

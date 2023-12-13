@@ -34,15 +34,15 @@
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
     <form th:action="@{/fill_patient_exam_form}" method="post" onsubmit="return validateForm()">
-        <label for="name" class="lab">1.Name:</label>
+        <label for="name" class="lab">1. Name:</label>
         <div>
             <input type="text" id="name" name="name"
                    oninput="removeDigitsAndSpecialChars(this)" class="inp" required>
         </div><br>
 
-        <label for="age" class="lab">2.Age:</label>
+        <label for="age" class="lab">2. Age:</label>
         <div>
-            <input type="number" id="age" name="age" class="inp" required>
+            <input type="number" id="age" name="age" class="inp" required min="0"/>
         </div><br>
 
         <label for="symptoms" class="lab">3. Symptoms:</label>
@@ -87,8 +87,8 @@
             <textarea id="notes" name="notes" rows="6" class="inp"></textarea>
         </div>
 
-        <div class="">
-            <button class="btn btn-primary btn-sm" type="submit">Confirm</button>
+        <div>
+            <button class="btn btn-primary btn-sm" type="submit">Save</button>
         </div>
     </form>
 

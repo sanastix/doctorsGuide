@@ -15,14 +15,14 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "patient_id", nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "age", nullable = false)
-    private Integer age;
+    private int age;
 
     @OneToMany(mappedBy = "patient")
     private Set<ExaminationForm> examinationForms = new LinkedHashSet<>();

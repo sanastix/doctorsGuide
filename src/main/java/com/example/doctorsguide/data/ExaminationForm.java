@@ -17,12 +17,12 @@ public class ExaminationForm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "exam_form_id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patients_id")
     private Patient patient;
 
     @Column(name = "notes", length = Integer.MAX_VALUE)
