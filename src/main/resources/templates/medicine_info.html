@@ -35,8 +35,8 @@
         <h3 th:text=" 'Quantity: ' + ${med.quantity}"></h3>
         <h3>Active ingredients:
             <span th:each="ai, iterStatus : ${active_ingredient}">
-                <span th:text="${ai.name}"></span>
-                <span th:if="${!iterStatus.last}"></span>
+                <span th:text="${ai.name}"/>
+                <span th:if="${!iterStatus.last}">,</span>
             </span>
         </h3>
         <h3>Indication:
@@ -56,13 +56,7 @@
                 <span th:text="${an.name} + '(' + ${an.form.getName()} + ')'"></span><br>
             </a>
         </div>
-
-
-
-
     </div>
-
-
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

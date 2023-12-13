@@ -32,14 +32,15 @@
         <h3 th:text=" 'Name: ' + ${disease.name}"></h3>
         <h3>Symptoms:
             <span th:each="s, iterStatus : ${symptom}">
-                <span th:text="${s.name}"></span>
-                <span th:if="${!iterStatus.last}"></span>
+                <span th:text="${s.name}"/>
+                <span th:if="${!iterStatus.last}">,</span>
             </span>
         </h3>
+
         <h3>Diagnostics:
             <span th:each="p, iterStatus : ${procedure}">
-                <span th:text="${p.name}"></span>
-                <span th:if="${!iterStatus.last}"></span>
+                <span th:text="${p.name}"/>
+                <span th:if="${!iterStatus.last}">,</span>
             </span>
         </h3>
         <h3>Medicines:

@@ -42,9 +42,6 @@ public class PatientController {
 
     @PostMapping("/fill_patient_exam_form")
     public String formReport(@ModelAttribute("patientForm") PatientExaminationForm patientForm, Model model) {
-        //String pdfContent = String.join("\n", patientService.composeForm(patientForm));
-        //downloadPDF(pdfContent);
-
         model.addAttribute("report", patientService.composeForm(patientForm));
         return "doctors_report";
     }

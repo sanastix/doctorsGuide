@@ -19,8 +19,6 @@ public class MedicineService {
     private final MedicineRepository medicineRepository;
     private final ActiveIngredientRepository activeIngredientRepository;
 
-    private final FormService formService;
-
     public Optional<Medicine> getMedicineById(Integer id){
         return medicineRepository.findById(id);
     }
@@ -42,29 +40,34 @@ public class MedicineService {
     }
 
     public void addMedicineToStorage(String name, Form form, Integer quantity,
-                                     Set<ActiveIngredient> active_ingredients, String dosage,
-                                     Set<Disease> disease){
+                                     Set<ActiveIngredient> active_ingredients,
+                                     String new_active_ingredients, String dosage,
+                                     Set<Disease> disease) {
+
         Medicine medicine = new Medicine();
         medicine.setName(name);
         medicine.setForm(form);
         medicine.setQuantity(quantity);
 
-/*        Set<ActiveIngredient> newAISet = convertStringToActiveIngredientSet(active_ingredient);
-        List<ActiveIngredient> existingAIList = activeIngredientRepository.findAll();
-        Set<ActiveIngredient> activeIngredients = mergeLists(existingAIList, newAISet);
-        medicine.setActiveIngredients(activeIngredients);*/
-        medicine.setActiveIngredients(active_ingredients);
-/*        Set<ActiveIngredient> activeIngredients = new LinkedHashSet<>(active_ingredients);
-        medicine.setActiveIngredients(activeIngredients);*/
+        if (new_active_ingredients != null && active_ingredients == null) {
+            Set<ActiveIngredient> newSetAI = convertStringToActiveIngredientSet(new_active_ingredients);
+            activeIngredientRepository.saveAll(newSetAI);
+            medicine.setActiveIngredients(newSetAI);
+        } else if (new_active_ingredients == null) {
+            medicine.setActiveIngredients(active_ingredients);
+        } else {
+            Set<ActiveIngredient> newAISet = convertStringToActiveIngredientSet(new_active_ingredients);
+            activeIngredientRepository.saveAll(newAISet);
+            Set<ActiveIngredient> activeIngredients = mergeSets(active_ingredients, newAISet);
+            medicine.setActiveIngredients(activeIngredients);
+        }
 
         medicine.setDosage(dosage);
-
         medicine.setDiseases(disease);
         medicineRepository.save(medicine);
     }
 
-    private static Set<ActiveIngredient> mergeLists(List<ActiveIngredient> existingList, Set<ActiveIngredient> newSet) {
-        Set<ActiveIngredient> existingSet = new HashSet<>(existingList);
+    private static Set<ActiveIngredient> mergeSets(Set<ActiveIngredient> existingSet, Set<ActiveIngredient> newSet) {
         Set<ActiveIngredient> mergedSet = new HashSet<>(existingSet);
         newSet.forEach(newIngredient -> {
             boolean containsIgnoreCase = existingSet.stream()

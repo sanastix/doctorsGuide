@@ -10,6 +10,4 @@ public class FormController {
 
     private final FormService formService;
 
-    //get all medicines with this form?
-
 }

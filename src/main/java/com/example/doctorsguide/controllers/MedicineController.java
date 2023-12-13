@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -78,10 +77,11 @@ public class MedicineController {
     public String addMedicine(@RequestParam("name") String name,
                               @RequestParam("forms") Form form,
                               @RequestParam("quantity") int quantity,
-                              @RequestParam("active_ingredients") Set<ActiveIngredient> active_ingredients,
+                              @RequestParam(name = "active_ingredients", required = false) Set<ActiveIngredient> active_ingredients,
+                              @RequestParam("new_active_ingredients") String new_active_ingredients,
                               @RequestParam("dosage") String dosage,
                               @RequestParam("diseases") Set<Disease> disease){
-        medicineService.addMedicineToStorage(name, form, quantity, active_ingredients, dosage, disease);
+        medicineService.addMedicineToStorage(name, form, quantity, active_ingredients, new_active_ingredients, dosage, disease);
         return "redirect:/storage";
     }
 

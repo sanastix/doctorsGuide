@@ -28,31 +28,16 @@ public class ActiveIngredientService {
         return activeIngredientRepository.findActiveIngredientsByMedicinesId(id);
     }
 
-    public List<Medicine> findAnalogues(Integer id){
+    public List<Medicine> findAnalogues(Integer id) {
         List<Medicine> meds = new ArrayList<>();
         List<ActiveIngredient> activeIngredients = getIngredientsByMedicineId(id);
+
         for (ActiveIngredient activeIngredient : activeIngredients) {
-            meds = medicineRepository.findMedicinesByActiveIngredient(activeIngredient);
+            List<Medicine> medicinesForIngredient = medicineRepository.findMedicinesByActiveIngredient(activeIngredient);
+            meds.addAll(medicinesForIngredient);
         }
+
         return meds;
     }
-
-/*    public List<String> findAnalogues(int medicineId) {
-        List<ActiveIngredient> activeIngredients = getIngredientsByMedicineId(medicineId);
-        Set<String> analogueNames = new HashSet<>();
-
-        for (ActiveIngredient activeIngredient : activeIngredients) {
-            List<Medicine> medicinesWithSameIngredient =
-                    medicineRepository.findMedicinesByActiveIngredient(activeIngredient);
-
-            for (Medicine medicine : medicinesWithSameIngredient) {
-                if (medicine.getId() != medicineId) {
-                    analogueNames.add(medicine.getName() + " (" + medicine.getForm().getName() + ")");
-                }
-            }
-        }
-
-        return new ArrayList<>(analogueNames);
-    }*/
 
 }
