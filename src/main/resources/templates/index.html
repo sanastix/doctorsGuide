@@ -5,18 +5,67 @@
     <title>Start page for Doctor's Guide</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
     <style>
-        .functions-container {
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+        .welcome-message {
             text-align: center;
-            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .section-description {
+            text-align: center;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="functions-container">
-    <a href="/patient_examination_form" class="btn btn-primary btn-lg">Patient examination form</a><br><br>
-    <a href="/storage" class="btn btn-primary btn-lg">Medicine storage</a><br><br>
-    <a href="/diseases" class="btn btn-primary btn-lg">Diseases guide</a><br><br>
-    </div>
+    <div class="welcome-message">
+        <h1>Welcome to Doctor's Guide</h1>
+        <p>Here, you can efficiently manage your medical records and resources. Explore the following sections:</p>
+    </div><br>
+
+    <div class="section">
+        <div class="section-title">Patient Examination Form</div>
+        <div class="section-description">
+            <p>Fill out patient examination forms after each visit.</p>
+            <p>Save patient information and their medical details to the database for comprehensive record-keeping.</p>
+            <a class="btn btn-primary" href="/patient_examination_form">Go to Patient Examination Form</a>
+        </div>
+    </div><br>
+
+    <div class="section">
+        <div class="section-title">Drug Storage</div>
+        <div class="section-description">
+            <p>Manage your drug inventory efficiently.</p>
+            <p>View the quantity of each medicine, get detailed information, update quantities, or remove medicines from your storage.</p>
+            <a class="btn btn-primary" href="/storage">Go to Drug Storage</a>
+        </div>
+    </div><br>
+
+    <div class="section">
+        <div class="section-title">Diseases Guide</div>
+        <div class="section-description">
+            <p>Access a comprehensive guide to diseases. </p>
+            <p>Explore the list of diseases and get detailed information about each one for better diagnosis and patient care.</p>
+            <a class="btn btn-primary" href="/diseases">Go to Diseases Guide</a>
+        </div>
+    </div><br>
+
     <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
