@@ -336,94 +336,88 @@ SET dosage =
             ELSE NULL
             END;
 
-alter table medicine
-    alter column quantity set default 0;
+-- Set default value for column quantity in table medicine
+ALTER TABLE medicine
+    ALTER COLUMN quantity SET DEFAULT 0;
 
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_medicine_id_fkey;
+-- Modify foreign key constraints in table medicine_active_ingredient
+ALTER TABLE medicine_active_ingredient
+    DROP CONSTRAINT IF EXISTS medicine_active_ingredient_medicine_id_fkey,
+    ADD FOREIGN KEY (medicine_id) REFERENCES medicine ON UPDATE CASCADE ON DELETE CASCADE;
 
-alter table medicine_active_ingredient
-    add foreign key (medicine_id) references medicine
-        on delete cascade;
+ALTER TABLE medicine_active_ingredient
+    DROP CONSTRAINT IF EXISTS medicine_active_ingredient_active_ingredient_id_fkey,
+    ADD FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient ON UPDATE CASCADE ON DELETE CASCADE;
 
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
+-- Modify foreign key constraints in table medicine_disease
+ALTER TABLE medicine_disease
+    DROP CONSTRAINT IF EXISTS medicine_disease_medicine_id_fkey,
+    ADD FOREIGN KEY (medicine_id) REFERENCES medicine ON DELETE CASCADE;
 
-alter table medicine_active_ingredient
-    add foreign key (active_ingredient_id) references active_ingredient
-        on delete cascade;
+ALTER TABLE medicine_disease
+    DROP CONSTRAINT IF EXISTS medicine_disease_disease_id_fkey,
+    ADD FOREIGN KEY (disease_id) REFERENCES disease ON DELETE CASCADE;
 
-alter table medicine_disease
-    drop constraint medicine_disease_medicine_id_fkey;
+-- Modify foreign key constraints in table disease_symptom
+ALTER TABLE disease_symptom
+    DROP CONSTRAINT IF EXISTS disease_symptom_disease_id_fkey,
+    ADD FOREIGN KEY (disease_id) REFERENCES disease ON DELETE CASCADE;
 
-alter table medicine_disease
-    add foreign key (medicine_id) references medicine
-        on delete cascade;
+ALTER TABLE disease_symptom
+    DROP CONSTRAINT IF EXISTS disease_symptom_symptom_id_fkey,
+    ADD FOREIGN KEY (symptom_id) REFERENCES symptom ON DELETE CASCADE;
 
-alter table medicine_disease
-    drop constraint medicine_disease_disease_id_fkey;
+-- Modify foreign key constraints in table disease_diagnostic_procedure
+ALTER TABLE disease_diagnostic_procedure
+    DROP CONSTRAINT IF EXISTS disease_diagnostic_procedure_disease_id_fkey,
+    ADD FOREIGN KEY (disease_id) REFERENCES disease ON DELETE CASCADE;
 
-alter table medicine_disease
-    add foreign key (disease_id) references disease
-        on delete cascade;
+ALTER TABLE disease_diagnostic_procedure
+    DROP CONSTRAINT IF EXISTS disease_diagnostic_procedure_diagnostic_procedure_id_fkey,
+    ADD FOREIGN KEY (diagnostic_procedure_id) REFERENCES diagnostic_procedure ON DELETE CASCADE;
 
-alter table disease_symptom
-    drop constraint disease_symptom_disease_id_fkey;
+-- Add unique constraint on name column in table active_ingredient
+CREATE UNIQUE INDEX IF NOT EXISTS active_ingredient_name_key ON active_ingredient (name);
 
-alter table disease_symptom
-    add foreign key (disease_id) references disease
-        on delete cascade;
+-- Create the 'patient' table
+CREATE TABLE IF NOT EXISTS patient (
+                                       id SERIAL PRIMARY KEY,
+                                       name VARCHAR(255) NOT NULL,
+                                       age INT NOT NULL
+);
 
-alter table disease_symptom
-    drop constraint disease_symptom_symptom_id_fkey;
+-- Create the 'examination_form' table
+CREATE TABLE IF NOT EXISTS examination_form (
+                                                id SERIAL PRIMARY KEY,
+                                                patient_id INT REFERENCES patient(id) ON DELETE CASCADE
+);
 
-alter table disease_symptom
-    add foreign key (symptom_id) references symptom
-        on delete cascade;
+-- Create a junction table for the many-to-many relationship between 'examination_form' and 'symptom'
+CREATE TABLE IF NOT EXISTS examination_form_symptoms (
+                                                         examination_form_id INT REFERENCES examination_form(id) ON DELETE CASCADE,
+                                                         symptom_id INT REFERENCES symptom(symptom_id) ON DELETE CASCADE,
+                                                         PRIMARY KEY (examination_form_id, symptom_id)
+);
 
-alter table disease_diagnostic_procedure
-    drop constraint disease_diagnostic_procedure_disease_id_fkey;
+-- Create junction tables for the many-to-many relationships
+CREATE TABLE IF NOT EXISTS examination_form_diseases (
+                                                         examination_form_id INT REFERENCES examination_form(id) ON DELETE CASCADE,
+                                                         disease_id INT REFERENCES disease(disease_id) ON DELETE CASCADE,
+                                                         PRIMARY KEY (examination_form_id, disease_id)
+);
 
-alter table disease_diagnostic_procedure
-    add foreign key (disease_id) references disease
-        on delete cascade;
+CREATE TABLE IF NOT EXISTS examination_form_procedures (
+                                                           examination_form_id INT REFERENCES examination_form(id) ON DELETE CASCADE,
+                                                           procedure_id INT REFERENCES diagnostic_procedure(procedure_id) ON DELETE CASCADE,
+                                                           PRIMARY KEY (examination_form_id, procedure_id)
+);
 
-alter table disease_diagnostic_procedure
-    drop constraint disease_diagnostic_procedure_diagnostic_procedure_id_fkey;
+CREATE TABLE IF NOT EXISTS examination_form_medicines (
+                                                          examination_form_id INT REFERENCES examination_form(id) ON DELETE CASCADE,
+                                                          medicine_id INT REFERENCES medicine(medicine_id) ON DELETE CASCADE,
+                                                          PRIMARY KEY (examination_form_id, medicine_id)
+);
 
-alter table disease_diagnostic_procedure
-    add foreign key (diagnostic_procedure_id) references diagnostic_procedure
-        on delete cascade;
-
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_medicine_id_fkey;
-
-alter table medicine_active_ingredient
-    add foreign key (medicine_id) references medicine
-        on update cascade on delete cascade;
-
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
-
-alter table medicine_active_ingredient
-    add foreign key (active_ingredient_id) references active_ingredient
-        on update cascade on delete cascade;
-
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_medicine_id_fkey;
-
-alter table medicine_active_ingredient
-    add foreign key (medicine_id) references medicine
-        on delete cascade;
-
-alter table medicine_active_ingredient
-    drop constraint medicine_active_ingredient_active_ingredient_id_fkey;
-
-alter table medicine_active_ingredient
-    add foreign key (active_ingredient_id) references active_ingredient
-        on delete cascade;
-
-alter table active_ingredient
-    add constraint active_ingredient_name_key
-        unique (name);
-
+-- Add the 'notes' column to the 'examination_form' table
+ALTER TABLE examination_form
+    ADD COLUMN notes TEXT;

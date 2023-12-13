@@ -19,9 +19,6 @@
             margin-left: 250px;
             width: 1000px;
         }
-        .pdf {
-            margin-left: 250px;
-        }
     </style>
 </head>
 <body>
@@ -39,32 +36,6 @@
             </span>
         </h3>
     </div>
-<!--    <div class="pdf">
-        <a class="btn btn-primary" onclick="openPdfInNewTab()">Open PDF</a>
-    </div>
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-
-        var report = /*[[${report}]]*/ '${report}';  // Replace 'null' with the default value
-
-        function openPdfInNewTab() {
-            if (report) {
-                // Convert the 'report' object to a JSON string
-                var pdfContent = JSON.stringify(report);
-
-                // Thymeleaf expression to get the dynamic PDF content URL
-                var pdfUrl = /*[[@{/download-pdf(report=${pdfContent})}]]*/ '';
-
-                // Open the PDF in a new tab
-                window.open(pdfContent, '_blank');
-            } else {
-                alert('Report is empty. Cannot generate PDF.');
-            }
-        }
-
-        /*]]>*/
-    </script>-->
 
     <script type="text/javascript">
         function goBack() {

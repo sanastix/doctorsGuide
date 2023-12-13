@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/dist/css/bootstrap.css}">
+    <style>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+        .buttons {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Something went wrong</h1>
+    <div class="buttons">
+        <a class="btn btn-secondary" th:href="@{/}">Main page</a>
+        <a class="btn btn-secondary" th:href="@{/diseases}">Diseases</a>
+        <a class="btn btn-secondary" th:href="@{/storage}">Storage</a>
+    </div>
+    <script th:src="@{webjars/bootstrap/5.3.2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

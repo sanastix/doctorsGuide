@@ -44,7 +44,7 @@ public class MedicineController {
             model.addAttribute("medicine", medicine.get());
             return "medicine_info";
         } else {
-            return "medicine_not_found";
+            return "error_page";
         }
     }
 
@@ -55,7 +55,7 @@ public class MedicineController {
             model.addAttribute("med", medicine.get());
             return "medicine_edit";
         } else {
-            return "medicine_not_found";
+            return "error_page";
         }
     }
 
@@ -94,7 +94,7 @@ public class MedicineController {
             model.addAttribute("analogues", activeIngredientService.findAnalogues(id));
             return "medicine_info";
         } else {
-            return "medicine_not_found";
+            return "error_page";
         }
     }
 
@@ -109,6 +109,11 @@ public class MedicineController {
     public String deleteMedicine(@PathVariable int id){
         medicineService.deleteMedicineById(id);
         return "redirect:/storage";
+    }
+
+    @GetMapping("/error_page")
+    public String medicineNotFound(){
+        return "error_page";
     }
 
 }

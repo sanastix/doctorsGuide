@@ -10,14 +10,21 @@
             color: #333;
             font-family: 'Arial', sans-serif;
         }
+        .main-page-button {
+            margin-left: 20px;
+        }
         form {
             margin-top: 50px;
             display: block;
-            margin-left: 250px;
+            margin-left: 350px;
             width: 1000px;
         }
-        .main-page-button {
-            margin-left: 20px;
+        .lab {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .inp {
+            width: 500px;
         }
     </style>
 </head>
@@ -26,20 +33,19 @@
     <div class="main-page-button">
         <a class="btn btn-secondary" th:href="@{/}">Main page</a>
     </div>
-    <form th:action="@{/fill_patient_exam_form}" th:object="${patientForm}"
-          method="post" onsubmit="return validateForm()">
-        <label for="name">1.Name:</label>
+    <form th:action="@{/fill_patient_exam_form}" method="post" onsubmit="return validateForm()">
+        <label for="name" class="lab">1.Name:</label>
         <div>
             <input type="text" id="name" name="name"
-                   oninput="removeDigitsAndSpecialChars(this)" style="width: 500px;" required>
+                   oninput="removeDigitsAndSpecialChars(this)" class="inp" required>
         </div><br>
 
-        <label for="age">2.Age:</label>
+        <label for="age" class="lab">2.Age:</label>
         <div>
-            <input type="number" id="age" name="age" style="width: 500px;" required>
+            <input type="number" id="age" name="age" class="inp" required>
         </div><br>
 
-        <label for="symptoms">3. Symptoms:</label>
+        <label for="symptoms" class="lab">3. Symptoms:</label>
         <div th:each="s : ${symptoms}">
             <div>
                 <input id="symptoms" type="checkbox" th:id="${'symptom-' + s.id}"
@@ -48,7 +54,7 @@
             </div>
         </div><br>
 
-        <label for="diseases">4. Diagnosis:</label>
+        <label for="diseases" class="lab">4. Diagnosis:</label>
         <div th:each="d : ${diseases}">
             <div>
                 <input id="diseases" type="checkbox" th:id="${'disease-' + d.id}"
@@ -57,7 +63,7 @@
             </div>
         </div><br>
 
-        <label for="procedures">5. Diagnostic Procedures:</label>
+        <label for="procedures" class="lab">5. Diagnostic Procedures:</label>
         <div th:each="p : ${procedures}">
             <div>
                 <input id="procedures" type="checkbox" th:id="${'procedure-' + p.id}"
@@ -66,7 +72,7 @@
             </div>
         </div><br>
 
-        <label for="medicines">6. Treatment:</label>
+        <label for="medicines" class="lab">6. Treatment:</label>
         <div th:each="m : ${medicines}">
             <div>
                 <input id="medicines" type="checkbox" th:id="${'medicine-' + m.id}"
@@ -75,6 +81,12 @@
                        th:text="${m.name} + ' (' + ${m.form.name} + ', ' + ${m.dosage} + ')'"></label>
             </div>
         </div><br>
+
+        <label for="notes" class="lab">7. Additional recommendations:</label>
+        <div>
+            <textarea id="notes" name="notes" rows="6" class="inp"></textarea>
+        </div>
+
         <div class="">
             <button class="btn btn-primary btn-sm" type="submit">Confirm</button>
         </div>

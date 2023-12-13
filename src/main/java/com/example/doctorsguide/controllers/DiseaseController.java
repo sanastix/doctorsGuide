@@ -43,7 +43,7 @@ public class DiseaseController {
             model.addAttribute("disease", disease.get());
             return "disease_info";
         } else {
-            return "disease_not_found";
+            return "error_page";
         }
     }
 
@@ -60,7 +60,7 @@ public class DiseaseController {
             model.addAttribute("medicine", medicines);
             return "disease_info";
         } else {
-            return "disease_not_found";
+            return "error_page";
         }
     }
 
