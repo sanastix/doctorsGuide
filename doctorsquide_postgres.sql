@@ -1,35 +1,35 @@
 -- Create the 'symptom' table
-CREATE TABLE symptom (
+CREATE TABLE IF NOT EXISTS symptom (
                          id SERIAL PRIMARY KEY,
                          name VARCHAR(255) NOT NULL
 );
 
 -- Create the 'diagnostic_procedure' table
-CREATE TABLE diagnostic_procedure (
+CREATE TABLE IF NOT EXISTS diagnostic_procedure (
                                       id SERIAL PRIMARY KEY,
                                       name VARCHAR(255) NOT NULL
 );
 
 -- Create the 'active_ingredient' table
-CREATE TABLE active_ingredient (
+CREATE TABLE IF NOT EXISTS active_ingredient (
                                    id SERIAL PRIMARY KEY,
                                    name VARCHAR(255) NOT NULL
 );
 
 -- Create the 'form' table
-CREATE TABLE form (
+CREATE TABLE IF NOT EXISTS form (
                       id SERIAL PRIMARY KEY,
                       name VARCHAR(255) NOT NULL
 );
 
 -- Create the 'disease' table without symptom and diagnostic procedure references
-CREATE TABLE disease (
+CREATE TABLE IF NOT EXISTS disease (
                          id SERIAL PRIMARY KEY,
                          name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- Create the 'medicine' table without active ingredient reference
-CREATE TABLE medicine (
+CREATE TABLE IF NOT EXISTS medicine (
                           id SERIAL PRIMARY KEY,
                           name VARCHAR(255) NOT NULL,
                           form_id INT,
@@ -37,7 +37,7 @@ CREATE TABLE medicine (
 );
 
 -- Creating table: medicine_disease
-CREATE TABLE medicine_disease (
+CREATE TABLE IF NOT EXISTS medicine_disease (
                                   medicine_id INT,
                                   disease_id INT,
                                   PRIMARY KEY (medicine_id, disease_id),
@@ -46,7 +46,7 @@ CREATE TABLE medicine_disease (
 );
 
 -- Create a many-to-many relationship table for diseases and symptoms
-CREATE TABLE disease_symptom (
+CREATE TABLE IF NOT EXISTS disease_symptom (
                                  disease_id INT,
                                  symptom_id INT,
                                  PRIMARY KEY (disease_id, symptom_id),
@@ -55,7 +55,7 @@ CREATE TABLE disease_symptom (
 );
 
 -- Create a many-to-many relationship table for diseases and diagnostic procedures
-CREATE TABLE disease_diagnostic_procedure (
+CREATE TABLE IF NOT EXISTS disease_diagnostic_procedure (
                                               disease_id INT,
                                               diagnostic_procedure_id INT,
                                               PRIMARY KEY (disease_id, diagnostic_procedure_id),
@@ -66,7 +66,7 @@ CREATE TABLE disease_diagnostic_procedure (
 
 
 -- Create the 'medicine_active_ingredient' table for many-to-many relationship
-CREATE TABLE medicine_active_ingredient (
+CREATE TABLE IF NOT EXISTS medicine_active_ingredient (
                                             medicine_id INT,
                                             active_ingredient_id INT,
                                             PRIMARY KEY (medicine_id, active_ingredient_id),
