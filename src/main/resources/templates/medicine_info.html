@@ -48,7 +48,6 @@
             </span>
             <span th:unless="${med.diseases}">No indication available</span>
         </h3>
-
         <h3 th:text=" 'Dosage: ' + ${med.dosage}"></h3><br><br>
         <h3>Analogues:</h3>
         <div th:each="an : ${analogues}" th:unless="${an.id == med.id}">
