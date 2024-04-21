@@ -11,9 +11,9 @@ This documentation provides instructions on how to run, deploy, and use the "Doc
 2. **Application:**
       - Ensure Java version 17 and Maven are installed.
       - Run the application using Maven command:
-            ```bash
-            mvn spring-boot:run
-            ```
+      ```bash
+         mvn spring-boot:run
+      ```
       - The application will be accessible at http://localhost:8080.
       
 ## Using the Application
