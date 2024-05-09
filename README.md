@@ -1,3 +1,7 @@
+#### Key Components: Java 17, Spring (Boot, MVC, Data JPA), Postgres, HTML, Thymeleaf, Bootstrap, Maven, Lombok, Hibernate
+
+
+
 # Doctor's Guide
 
 This documentation provides instructions on how to run, deploy, and use the "Doctor's Guide" application. The application is written in Java and built on the Spring Framework using Spring MVC. Maven is used for project build. The database is implemented using Postgres. The graphical interface is presented in HTML using Thymeleaf and Bootstrap.
